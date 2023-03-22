@@ -15,50 +15,12 @@ app.use(express.json())
 app.use(cors())
 app.use(express.static('build'))
 
-// DATAS
-let persons = [
-    { 
-        "id": 1,
-        "name": "Arto Hellas", 
-        "number": "040-123456"
-    },
-    { 
-        "id": 2,
-        "name": "Ada Lovelace", 
-        "number": "39-44-5323523"
-    },
-    { 
-        "id": 3,
-        "name": "Dan Abramov", 
-        "number": "12-43-234345"
-    },
-    { 
-        "id": 4,
-        "name": "Mary Poppendieck", 
-        "number": "39-23-6423122"
-    }
-]
-
-const generatedId = () => {
-    const maxId = persons.length > 0
-        ? Math.max(...persons.map(person => person.id))
-        : 0
-    return maxId + 1
-}
-
 
 // ROUTES
 app.get('/api/persons', (request, response) => {
     Person.find({})
-        .then(result => result.forEach(person => response.json(person)))
+        .then(result => response.json(result))
         .catch(e => response.json({error: e}).status(500).end())
-})
-app.get('/api/info', (request, response) => {
-    currentDate = new Date()
-    response.send(`
-        <p>Phonebook has info for ${persons.length} people</p>
-        <p>${currentDate}</p>
-    `)
 })
 app.get('/api/persons/:id', (request, response) => {
     const id = request.params.id
